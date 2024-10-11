@@ -1,5 +1,5 @@
 """
-projekt_2.py: druhý projekt do Engeto Online Python Akademie
+projekt_2.py: druhý projekt do Engeto Online Python Akademie - hra Bulls and Cows
 author: Přemysl Pleva
 email: premyslpleva75@gmail.com
 discord: premeq#5714
