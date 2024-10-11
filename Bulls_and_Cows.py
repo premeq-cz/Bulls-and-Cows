@@ -7,7 +7,6 @@ discord: premeq#5714
 
 import random as r
 from datetime import datetime
-import math
 
 
 def bull_number():
@@ -38,25 +37,25 @@ def total_time(a, z):
     """
     tot_sec = (z - a).total_seconds()
     if 119 < tot_sec < 180:
-        m = math.floor(tot_sec / 60)
-        s = math.floor((tot_sec % 60))
+        m = int(tot_sec // 60)
+        s = int(tot_sec % 60)
         result = f"It took you {m} minutes and {s} seconds :)"
     elif tot_sec >= 180:
         result = f"You are a lame and your game won't make it to the records..."
     else:
-        result = f"It took you {math.floor(tot_sec)} seconds only!"
+        result = f"It took you {int(tot_sec)} seconds only!"
     return print(result)
 
 
 def count_bulls_cows(tip):
-    bulls = 0
-    cows = 0
+    number_of_bulls = 0
+    number_of_cows = 0
     for i in range(4):
         if tip[i] == generated_num[i]:
-            bulls += 1
+            number_of_bulls += 1
         elif tip[i] in generated_num:
-            cows += 1
-    return bulls, cows
+            number_of_cows += 1
+    return number_of_bulls, number_of_cows
 
 
 def game_conditions_ok(user_input: str) -> bool:
@@ -65,18 +64,16 @@ def game_conditions_ok(user_input: str) -> bool:
     :param user_input: Player's input, a number
     :return: True or False
     """
-    if not x.isnumeric():
+    if not user_input.isnumeric():
         print("Your input contains non-digit symbols...")
-        result = False
-    elif len(x) != 4:
+        return False
+    elif len(user_input) != 4:
         print("Your input should be a 4-digit number...")
-        result = False
-    elif len(set(x)) != 4:
+        return False
+    elif len(set(user_input)) != 4:
         print("Digits do not repeat...")
-        result = False
-    else:
-        result = True
-    return result
+        return False
+    return True
 
 
 def wrong_guess():
@@ -131,7 +128,7 @@ print(
     "It has unique digits.",
     "Let's play Bulls and Cows game.",
     "-" * 50,
-    "Enter a number:",
+    "The number has been generated!",
     "-" * 50,
     sep="\n"
 )
@@ -140,7 +137,7 @@ print(
 while True:  # Loop for the entire game
 
     generated_num = bull_number()  # The random number that is to be guessed
-    print(generated_num)
+    # print(generated_num)
 
     guesses = 0  # trial & error counter
     # again = str()  # An empty string - used later to check in the player wants a new game
@@ -149,17 +146,17 @@ while True:  # Loop for the entire game
 
     while True:  # Loop where the player is guessing the number
 
-        x = input()  # player's guess
+        x = input("Your guess: ")  # player's guess
         guesses += 1
 
         if game_conditions_ok(x) is False:  # Verifying validity of player's input
             continue
 
-        if count_bulls_cows(x)[0] < 4:  # Wrong guess, less than 4 Bulls
-            print(wrong_guess())
-            continue
+        bulls, cows = count_bulls_cows(x)
 
-        if count_bulls_cows(x)[0] == 4:  # Correct guess, 4 Bulls
+        if bulls < 4:  # and game_conditions_ok(x) is True:  # Wrong guess, less than 4 Bulls
+            print(wrong_guess())
+        else:  # Correct guess, 4 Bulls
             end = datetime.now()  # timer - end
             print("*" * 50)
             if guesses == 1:
@@ -168,8 +165,7 @@ while True:  # Loop for the entire game
                 print("Correct!! Amazing game, congratulations :)", f"You got it in {guesses} turns!", sep="\n")
             total_time(start, end)
             print("*" * 50)
-
-        break
+            break
 
     again = end_game_check()
     if again == "n":
