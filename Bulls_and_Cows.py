@@ -44,7 +44,7 @@ def total_time(a, z):
         result = f"You are a lame and your game won't make it to the records..."
     else:
         result = f"It took you {int(tot_sec)} seconds only!"
-    return print(result)
+    return result
 
 
 def count_bulls_cows(tip):
@@ -82,17 +82,11 @@ def wrong_guess():
     :return: A string of counted Bulls and Cows
     :example: 1 Bull, 0 Cows
     """
-    if count_bulls_cows(x)[0] == 1:
-        b = "Bull"
-    else:
-        b = "Bulls"
 
-    if count_bulls_cows(x)[1] == 1:
-        c = "Cow"
-    else:
-        c = "Cows"
-
-    result = f"{count_bulls_cows(x)[0]} {b}, {count_bulls_cows(x)[1]} {c}"
+    the_count = count_bulls_cows(x)
+    b = "Bull" if the_count[0] == 1 else "Bulls"
+    c = "Cow" if the_count[1] == 1 else "Cows"
+    result = f"{the_count[0]} {b}, {the_count[1]} {c}"
     return result
 
 
